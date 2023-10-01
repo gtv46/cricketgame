@@ -1,0 +1,85 @@
+import random
+
+# Constants
+MAX_OVERS = 5  # Total number of overs in the game
+MAX_BALLS_PER_OVER = 6  # Maximum balls per over
+MAX_WICKETS = 10  # Maximum wickets in an inning
+
+# Function to simulate a ball
+def play_ball():
+    outcomes = ['Dot', 'Single', 'Double', 'Triple', 'Four', 'Six', 'Out']
+    return random.choice(outcomes)
+
+# Function to simulate an over
+def play_over():
+    over_result = []
+    for _ in range(MAX_BALLS_PER_OVER):
+        result = play_ball()
+        over_result.append(result)
+        if result == 'Out':
+            break
+    return over_result
+
+# Function to play an inning
+def play_inning(player_name):
+    score = 0
+    wickets = 0
+    overs = 0
+    balls_faced = 0
+
+    print(f"{player_name} is batting!")
+
+    while overs < MAX_OVERS and wickets < MAX_WICKETS:
+        input(f"Press Enter to face the next ball...")
+        over_result = play_over()
+
+        for outcome in over_result:
+            if outcome == 'Out':
+                print(f"{player_name} is out!")
+                wickets += 1
+                break
+            else:
+                runs = 0
+                if outcome == 'Dot':
+                    print(f"{player_name} faces a dot ball.")
+                elif outcome == 'Single':
+                    runs = 1
+                elif outcome == 'Double':
+                    runs = 2
+                elif outcome == 'Triple':
+                    runs = 3
+                elif outcome == 'Four':
+                    runs = 4
+                elif outcome == 'Six':
+                    runs = 6
+
+                print(f"{player_name} scores {runs} runs!")
+                score += runs
+                balls_faced += 1
+
+        overs += 1
+
+    return score, wickets, balls_faced
+
+# Main function to play the cricket game
+def cricket_game():
+    print("Welcome to the Advanced Cricket Game!")
+
+    player1_name = input("Enter Player 1's name: ")
+    player2_name = input("Enter Player 2's name: ")
+
+    player1_score, player1_wickets, player1_balls = play_inning(player1_name)
+    print(f"{player1_name} scored {player1_score} runs with {player1_wickets} wickets down in {player1_balls} balls.")
+
+    player2_score, player2_wickets, player2_balls = play_inning(player2_name)
+    print(f"{player2_name} scored {player2_score} runs with {player2_wickets} wickets down in {player2_balls} balls.")
+
+    if player1_score > player2_score:
+        print(f"{player1_name} wins!")
+    elif player2_score > player1_score:
+        print(f"{player2_name} wins!")
+    else:
+        print("It's a tie!")
+
+if __name__ == "__main__":
+    cricket_game()
